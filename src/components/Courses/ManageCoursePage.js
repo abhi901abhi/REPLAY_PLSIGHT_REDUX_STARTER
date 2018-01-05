@@ -15,6 +15,8 @@ class ManageCoursePage extends React.Component{
       errors:{}
     };
     this.updateCourseState=this.updateCourseState.bind(this);
+    this.saveCourse=this.saveCourse.bind(this);
+
   }
 
   updateCourseState(event){
@@ -29,6 +31,10 @@ class ManageCoursePage extends React.Component{
       course:course
     });
   }
+  saveCourse(event){
+    debugger;
+    this.props.actions.saveCourse(this.state.course);
+  }
   render(){
     const  {location, params, route, router, routeParams, routes, children, actions} = this.props;
     return (
@@ -37,6 +43,7 @@ class ManageCoursePage extends React.Component{
              course={this.state.course}
              allAuthors={this.props.authors}
              onChange={this.updateCourseState}
+             onSave={this.saveCourse}
              errors={this.state.errors}>
         </CourseForm>
 
@@ -47,7 +54,7 @@ class ManageCoursePage extends React.Component{
 };
 function mapStateToProps(state,ownProps){
   let course = {id: '', watchHref: '', title: '', authorId: '', length: '', category: ''};
-  const authorsFormattedForDropdown = state.authors.map(author=>{
+  const authorsFormattedForDropdown = state.authorReducer.map(author=>{
     return {
       text:author.firstName+' '+ author.lastName,
       value:author.id
@@ -61,7 +68,7 @@ function mapStateToProps(state,ownProps){
 
 function mapDispatchToProps(dispatch){
   return{
-      actions:bindActionCreators(courseActions,authorActions,dispatch)
+      actions:bindActionCreators({...courseActions,...authorActions},dispatch)
   }
 }
 

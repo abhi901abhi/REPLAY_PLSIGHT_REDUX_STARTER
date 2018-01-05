@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import * as courseActions from './../../actions/courseAction';
 import {bindActionCreators} from 'redux';
 import CourseList from './CourseList';
+import {browserHistory} from 'react-router';
 //Stateless functional component
 class CoursePage extends React.Component{
   constructor(){
@@ -23,6 +24,9 @@ class CoursePage extends React.Component{
     this.setState({
       course:course
     });
+  }
+  redirectToAddCoursePage(){
+    browserHistory.push('/course');
   }
   handleOnClick(event){
   //  this.props.dispatch(courseActions.createCourse(this.state.course));
@@ -51,6 +55,8 @@ class CoursePage extends React.Component{
             })
         }
         </div> */}
+        <input type="submit" value="Add Course" className="btn btn-primary"
+          onClick={this.redirectToAddCoursePage}/>
         <CourseList courses={courses} />
 
 
