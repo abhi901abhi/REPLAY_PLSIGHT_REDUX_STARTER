@@ -49,8 +49,10 @@ class ManageCoursePage extends React.Component{
              onSave={this.saveCourse}
              errors={this.state.errors}>
         </CourseForm>
-
-      <JsonView json={this.state.course} />;
+        <p></p>
+      <pre>
+        <JsonView json={this.state.course} />
+      </pre>
       </div>
     );
   }
@@ -60,8 +62,25 @@ ManageCoursePage.contextTypes={
   router:PropTypes.object.isRequired
 }
 
+function getCourseById(courses,courseId)
+{
+  //updating
+  //state."courses" are coming from rootReducer
+  let matchedCourse =  courses.filter(course=>course.id===courseId) ;
+  if(matchedCourse.length>0)
+  {
+    return matchedCourse[0];
+  }
+  return null;
+}
+
 function mapStateToProps(state,ownProps){
+  debugger;
   let course = {id: '', watchHref: '', title: '', authorId: '', length: '', category: ''};
+  const courseId = ownProps.params.id; // form the path course/:id
+  if(courseId){
+    course = getCourseById(state.courses,courseId);
+  }
   const authorsFormattedForDropdown = state.authorReducer.map(author=>{
     return {
       text:author.firstName+' '+ author.lastName,
