@@ -19,6 +19,26 @@ class ManageCoursePage extends React.Component{
     this.saveCourse=this.saveCourse.bind(this);
 
   }
+  componentWillReceiveProps(nextProps){
+    	if(this.props.course.id!= nextProps.course.id){
+    		this.setState({ course: Object.assign({},nextProps.course) } );
+    	}
+          //   Issue while UPDATE: When you click on an item, it will navigate to update page with values
+          // but when you refresh the updating page then all values will be gone. why ?
+          // --->class ManageCoursePage extends React.Component{
+          //   constructor(props,context){
+          //     super(props,context);
+          //     this.state={
+          //       course:Object.assign({},props.course),
+          //       errors:{}
+          //     };
+          //
+          // Initially when page first constructed the course of a props( props.course ) and set to local state, once our page is initialised any changes to
+          // props should be updated to the state. but the line " course:Object.assign({},props.course) " never called again so that the state will not be updated
+          // even the props data updated. To solve this one handy life cycle method comes into the picture that is "componentWillReceiveProps", this will update
+          // container component state when there is any update in props.
+          // this will call when react thinks props might have changed + some times with out props change also it will call
+}//componentWillReceiveProps
 
   updateCourseState(event){
     debugger;
@@ -78,7 +98,7 @@ function mapStateToProps(state,ownProps){
   debugger;
   let course = {id: '', watchHref: '', title: '', authorId: '', length: '', category: ''};
   const courseId = ownProps.params.id; // form the path course/:id
-  if(courseId){
+  if(courseId && state.courses.length>0 ){
     course = getCourseById(state.courses,courseId);
   }
   const authorsFormattedForDropdown = state.authorReducer.map(author=>{
