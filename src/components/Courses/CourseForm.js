@@ -39,7 +39,7 @@ debugger;
         error={errors.length}/>
 
       <input
-        type="button"
+        type="submit"
         disabled={saving}
         value={saving ? 'Saving...' : 'Save'}
         className="btn btn-primary"
