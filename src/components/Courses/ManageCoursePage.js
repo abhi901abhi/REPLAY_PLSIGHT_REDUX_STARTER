@@ -7,20 +7,22 @@ import * as authorActions from './../../actions/authorAction';
 import {bindActionCreators} from 'redux';
 import CourseForm from './CourseForm';
 import JsonView from 'react-pretty-json'; // 'react-pretty-json';
+import toastr from 'toastr';
 
 class ManageCoursePage extends React.Component{
   constructor(props,context){
     super(props,context);
     this.state={
       course:Object.assign({},props.course),
-      errors:{}
+      errors:{},
+      saving: false
     };
     this.updateCourseState=this.updateCourseState.bind(this);
     this.saveCourse=this.saveCourse.bind(this);
 
   }
   componentWillReceiveProps(nextProps){
-    	if(this.props.course.id!= nextProps.course.id){
+    	if(nextProps.course && this.props.course.id!= nextProps.course.id){
     		this.setState({ course: Object.assign({},nextProps.course) } );
     	}
           //   Issue while UPDATE: When you click on an item, it will navigate to update page with values
@@ -55,7 +57,16 @@ class ManageCoursePage extends React.Component{
   saveCourse(event){
     debugger;
     event.preventDefault();
-    this.props.actions.saveCourse(this.state.course);
+    this.setState({saving: true});
+    this.props.actions.saveCourse(this.state.course).then(() => this.redirect())
+      .catch(error => {
+        toastr.error(error);
+        this.setState({saving: false});
+      });
+  }
+  redirect() {
+    this.setState({saving: false});
+    toastr.success('Course saved');
     this.context.router.push('/courses');
   }
   render(){
@@ -67,6 +78,7 @@ class ManageCoursePage extends React.Component{
              allAuthors={this.props.authors}
              onChange={this.updateCourseState}
              onSave={this.saveCourse}
+             saving={this.state.saving}
              errors={this.state.errors}>
         </CourseForm>
         <p></p>

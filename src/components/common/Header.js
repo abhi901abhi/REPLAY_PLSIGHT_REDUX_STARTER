@@ -1,9 +1,10 @@
 import React from 'react';
 import {Link, IndexLink} from 'react-router';
+import LoadingDots from './LoadingDots';
 
 //acitve class name = based on route apply the class 'Active' -->
 //Stateless functional component
-const Header = () => {
+const Header = ({loading}) => {
     return (
         <nav>
             <IndexLink to="/" activeClassName="active">Home</IndexLink>
@@ -11,6 +12,8 @@ const Header = () => {
             <Link to="courses" activeClassName="active">Courses</Link>
             {" | "}
             <Link to="about" activeClassName="active">About</Link>
+            {loading && <LoadingDots interval="100" dots="1" />}
+
         </nav>
     );
 };

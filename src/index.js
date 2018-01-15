@@ -5,6 +5,7 @@ import routes from './routes';
 import './index.css';
 import './styles/styles.css'; // Webpack can import css files too
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import '../node_modules/toastr/build/toastr.min.css';
 
 import registerServiceWorker from './registerServiceWorker';
 import {Provider} from 'react-redux';
