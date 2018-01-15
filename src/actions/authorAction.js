@@ -1,5 +1,6 @@
 import * as types from './actionTypes';
 import authorApi from './../api/mockAuthorApi';
+import {beginAjaxCall} from './ajaxStatusActions';
 
 function loadAuthorsSuccess(authors){
   return {
@@ -11,6 +12,7 @@ function loadAuthorsSuccess(authors){
 //REDUX THUNK for ASYNC API Calls
 export function loadAuthors(){
   return function(dispatch){
+    dispatch(beginAjaxCall());
     return authorApi.getAllAuthors().then(authors=>{
       debugger;
       dispatch(loadAuthorsSuccess(authors));
